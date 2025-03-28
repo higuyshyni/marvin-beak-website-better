@@ -166,6 +166,16 @@
       font-size: 0.8em;
       border-top: 1px solid #333;
     }
+    #myGif {
+      margin-top: 50px;
+      max-width: 80%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    #randomMusic {
+        margin-top: 20px;
+        width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -181,16 +191,15 @@
         </p>
     </div>
     
-    <div id="musicControls">
-      <audio id="randomMusic" controls></audio>
-      <br>
-      <button id="playButton" onclick="startMusic()">Play Music</button>
-    </div>
   </div>
   <div class="controls">
+    <button id="playButton" onclick="startMusic()">Play Music</button>
     <button id="flyAwayButton" onclick="flyAway()">Fly Away, my child.</button>
     <button id="comeBackButton" onclick="comeBack()">Come Back, my child.</button>
   </div>
+  <img id="myGif" src="https://i.imgur.com/rAeNUZo.gif" alt="Marvin Beak GIF">
+  <audio id="randomMusic" controls></audio>
+
   <footer id="footer">
     <p>&copy; 2025</p>
     <p>marvin-beak.xyz</p>
