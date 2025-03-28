@@ -157,6 +157,15 @@
         max-width: 90%;
       }
     }
+    #footer {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      margin-top: 50px;
+      font-size: 0.8em;
+      border-top: 1px solid #333;
+    }
   </style>
 </head>
 <body>
@@ -182,6 +191,11 @@
     <button id="flyAwayButton" onclick="flyAway()">Fly Away, my child.</button>
     <button id="comeBackButton" onclick="comeBack()">Come Back, my child.</button>
   </div>
+  <footer id="footer">
+    <p>&copy; 2025</p>
+    <p>marvin-beak.xyz</p>
+    <p>Jimmy was here</p>
+  </footer>
   <script>
     const marvinImage = document.getElementById('marvinImage');
     const audioElement = document.getElementById('randomMusic');
