@@ -18,6 +18,13 @@
       max-width: 800px;
       margin: 50px auto 20px;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .text-container {
+      margin-right: 150px;
     }
     .fly-away {
       animation: flyAway 2s forwards;
@@ -56,25 +63,26 @@
       line-height: 1.5;
     }
     .controls {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
       display: flex;
-      flex-direction: column; /* Stack buttons vertically on small screens */
-      align-items: center; /* Center the buttons */
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 10;
     }
     .controls button {
       padding: 10px 20px;
       font-size: 1em;
-      margin: 5px;
+      margin: 5px 0;
       cursor: pointer;
       background-color: #ff6600;
       border: none;
       border-radius: 5px;
       color: white;
-      width: 100%; /* Make buttons full width on small screens */
-      max-width: 300px; /* Limit the maximum width of the buttons */
+      width: auto;
+      max-width: none;
     }
     .controls button:hover {
       background-color: #ff8533;
@@ -92,39 +100,77 @@
       cursor: pointer;
       margin-top: 10px;
     }
-
+    /* Default styles for larger screens */
+    .header-text {
+      font-size: 2.5em;
+    }
+    .body-text {
+      font-size: 1.2em;
+    }
     /* Media query for small screens (e.g., mobile phones) */
     @media (max-width: 768px) {
+      .content {
+        margin-top: 30px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .text-container {
+        margin-right: 0;
+      }
       .controls {
-        bottom: 10px; /* Adjust bottom margin for smaller screens */
+        position: relative;
+        left: 0;
+        transform: translateX(0);
+        bottom: 0;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        top: auto;
       }
       .controls button {
-        font-size: 1.2em; /* Adjust font size for smaller screens */
+        font-size: 1.2em;
         padding: 15px 30px;
+        width: 100%;
+        max-width: 200px;
+        margin: 10px 0;
       }
-      #playButton{
+      #playButton {
         padding: 20px 40px;
         font-size: 1.5em;
       }
-      h1{
+      .header-text {
         font-size: 2em;
       }
-      p{
+      .body-text {
         font-size: 1em;
+        line-height: 1.4;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      p {
+        font-size: 1em;
+      }
+      #marvinImage {
+        max-width: 90%;
       }
     }
   </style>
 </head>
 <body>
   <div class="content">
-    <h1>Marvin Beak</h1>
-    <img id="marvinImage" src="https://i.imgur.com/fcwZ4Px.jpeg" alt="Marvin Beak" />
-    <p>
-      Meet Marvin Beak, the legendary bird with the wisdom of an elder and the gaze of a thousand stories.
-    </p>
-    <p>
-      With his piercing eyes and majestic feathers, he watches over the digital realm, guiding those who seek his knowledge.
-    </p>
+    <div class = "text-container">
+        <h1 class="header-text">Marvin Beak</h1>
+        <img id="marvinImage" src="https://i.imgur.com/fcwZ4Px.jpeg" alt="Marvin Beak" />
+        <p class="body-text">
+        Meet Marvin Beak, the legendary bird with the wisdom of an elder and the gaze of a thousand stories.
+        </p>
+        <p class="body-text">
+        With his piercing eyes and majestic feathers, he watches over the digital realm, guiding those who seek his knowledge.
+        </p>
+    </div>
     
     <div id="musicControls">
       <audio id="randomMusic" controls></audio>
@@ -133,41 +179,38 @@
     </div>
   </div>
   <div class="controls">
-    <button onclick="flyAway()">Fly Away</button>
-    <button onclick="comeBack()">Come Back</button>
+    <button id="flyAwayButton" onclick="flyAway()">Fly Away</button>
+    <button id="comeBackButton" onclick="comeBack()">Come Back</button>
   </div>
-
   <script>
     const marvinImage = document.getElementById('marvinImage');
     const audioElement = document.getElementById('randomMusic');
     const playButton = document.getElementById('playButton');
-
-    // Array of music URLs from Dropbox
+    const flyAwayButton = document.getElementById('flyAwayButton');
+    const comeBackButton = document.getElementById('comeBackButton');
+    let isFlying = false;
     const musicUrls = [
       'https://www.dropbox.com/scl/fi/p3zrjra3be4xt8vfcb9p9/3.mp3?rlkey=n6p4dpiu7n4ggpvhcpod9ur9c&st=3c7gmfdq&dl=1',
       'https://www.dropbox.com/scl/fi/6iksn7nooipl97j9jtm72/1.mp3?rlkey=okajlv1vgaluku6cafb7drhf3&st=ujayqpa2&dl=1',
       'https://www.dropbox.com/scl/fi/kjmcdk28b17jpooo0k0i6/2.mp3?rlkey=obs55s4dopnt0fmx1fhz7lv5v&st=o1k8y0a5&dl=1'
     ];
-
-    // Function to play a random song
     function playRandomSong() {
       if (musicUrls.length > 0) {
         const randomIndex = Math.floor(Math.random() * musicUrls.length);
         audioElement.src = musicUrls[randomIndex];
-        audioElement.play().catch(error => {
+        try {
+          audioElement.play();
+        } catch (error) {
           console.error('Error playing music:', error);
           playButton.style.display = 'block';
-        });
+        }
       }
     }
-
-    // Function to start music (called by play button)
     function startMusic() {
       playRandomSong();
       playButton.style.display = 'none';
     }
 
-    // 3D image tilt effect on hover
     marvinImage.addEventListener('mousemove', (e) => {
       const rect = marvinImage.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
@@ -176,21 +219,35 @@
       const tiltY = -(x / rect.width) * 20;
       marvinImage.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
     });
-    
     marvinImage.addEventListener('mouseleave', () => {
       marvinImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
-    
     function flyAway() {
-      marvinImage.classList.remove('come-back');
-      marvinImage.classList.add('fly-away');
+      if (!isFlying) {
+        isFlying = true;
+        marvinImage.classList.remove('come-back');
+        marvinImage.classList.add('fly-away');
+        flyAwayButton.disabled = true;
+        comeBackButton.disabled = true;
+        setTimeout(() => {
+          flyAwayButton.disabled = false;
+          comeBackButton.disabled = false;
+        }, 2000);
+      }
     }
     function comeBack() {
-      marvinImage.classList.remove('fly-away');
-      marvinImage.classList.add('come-back');
+      if (isFlying) {
+        isFlying = false;
+        marvinImage.classList.remove('fly-away');
+        marvinImage.classList.add('come-back');
+        flyAwayButton.disabled = true;
+        comeBackButton.disabled = true;
+        setTimeout(() => {
+          flyAwayButton.disabled = false;
+          comeBackButton.disabled = false;
+        }, 2000);
+      }
     }
-
-    // Add event listener to play next random song when current song ends
     audioElement.addEventListener('ended', playRandomSong);
   </script>
 </body>
