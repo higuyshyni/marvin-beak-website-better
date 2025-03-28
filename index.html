@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marvin Beak</title>
+  <style>
+    body {
+      font-family: "Lucida Console", monospace;
+      background-color: #1a1a1a;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      text-align: center;
+    }
+    .content {
+      max-width: 800px;
+      margin: 50px auto 20px;
+      padding: 20px;
+    }
+    .fly-away {
+      animation: flyAway 2s forwards;
+    }
+    .come-back {
+      animation: comeBack 2s forwards;
+    }
+    @keyframes flyAway {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      100% {
+        transform: translate(100vw, -100vh) rotate(720deg);
+      }
+    }
+    @keyframes comeBack {
+      0% {
+        transform: translate(100vw, -100vh) rotate(-720deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+    #marvinImage {
+      max-width: 100%;
+      border-radius: 15px;
+      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+      transition: transform 0.1s ease-out;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-top: 20px;
+    }
+    p {
+      font-size: 1.2em;
+      line-height: 1.5;
+    }
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .controls button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 5px;
+      cursor: pointer;
+      background-color: #ff6600;
+      border: none;
+      border-radius: 5px;
+      color: white;
+    }
+    .controls button:hover {
+      background-color: #ff8533;
+    }
+    #musicControls {
+      margin-top: 20px;
+    }
+    #playButton {
+      background-color: #4CAF50;
+      color: white;
+      padding: 30px 60px;
+      font-size: 2.5em;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Marvin Beak</h1>
+    <img id="marvinImage" src="https://i.imgur.com/fcwZ4Px.jpeg" alt="Marvin Beak" />
+    <p>
+      Meet Marvin Beak, the legendary bird with the wisdom of an elder and the gaze of a thousand stories.
+    </p>
+    <p>
+      With his piercing eyes and majestic feathers, he watches over the digital realm, guiding those who seek his knowledge.
+    </p>
+    
+    <div id="musicControls">
+      <audio id="randomMusic" controls></audio>
+      <br>
+      <button id="playButton" onclick="startMusic()">Play Music</button>
+    </div>
+  </div>
+  <div class="controls">
+    <button onclick="flyAway()">Fly Away, my child.</button>
+    <button onclick="comeBack()">Come Back, my child.</button>
+  </div>
+
+  <script>
+    const marvinImage = document.getElementById('marvinImage');
+    const audioElement = document.getElementById('randomMusic');
+    const playButton = document.getElementById('playButton');
+
+    // Array of music URLs from Dropbox
+    const musicUrls = [
+      'https://www.dropbox.com/scl/fi/p3zrjra3be4xt8vfcb9p9/3.mp3?rlkey=n6p4dpiu7n4ggpvhcpod9ur9c&st=3c7gmfdq&dl=1',
+      'https://www.dropbox.com/scl/fi/6iksn7nooipl97j9jtm72/1.mp3?rlkey=okajlv1vgaluku6cafb7drhf3&st=ujayqpa2&dl=1',
+      'https://www.dropbox.com/scl/fi/kjmcdk28b17jpooo0k0i6/2.mp3?rlkey=obs55s4dopnt0fmx1fhz7lv5v&st=o1k8y0a5&dl=1'
+    ];
+
+    // Function to play a random song
+    function playRandomSong() {
+      if (musicUrls.length > 0) {
+        const randomIndex = Math.floor(Math.random() * musicUrls.length);
+        audioElement.src = musicUrls[randomIndex];
+        audioElement.play().catch(error => {
+          console.error('Error playing music:', error);
+          playButton.style.display = 'block';
+        });
+      }
+    }
+
+    // Function to start music (called by play button)
+    function startMusic() {
+      playRandomSong();
+      playButton.style.display = 'none';
+    }
+
+    // 3D image tilt effect on hover
+    marvinImage.addEventListener('mousemove', (e) => {
+      const rect = marvinImage.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / rect.height) * 20;
+      const tiltY = -(x / rect.width) * 20;
+      marvinImage.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
+    
+    marvinImage.addEventListener('mouseleave', () => {
+      marvinImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+    
+    function flyAway() {
+      marvinImage.classList.remove('come-back');
+      marvinImage.classList.add('fly-away');
+    }
+    function comeBack() {
+      marvinImage.classList.remove('fly-away');
+      marvinImage.classList.add('come-back');
+    }
+
+    // Add event listener to play next random song when current song ends
+    audioElement.addEventListener('ended', playRandomSong);
+  </script>
+</body>
+</html>
