@@ -1,284 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marvin Beak</title>
-  <style>
-    body {
-      font-family: "Lucida Console", monospace;
-      background-color: #1a1a1a;
-      color: white;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      text-align: center;
-    }
-    .content {
-      max-width: 800px;
-      margin: 50px auto 20px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-    .text-container {
-      margin-right: 150px;
-    }
-    .fly-away {
-      animation: flyAway 2s forwards;
-    }
-    .come-back {
-      animation: comeBack 2s forwards;
-    }
-    @keyframes flyAway {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      100% {
-        transform: translate(100vw, -100vh) rotate(720deg);
-      }
-    }
-    @keyframes comeBack {
-      0% {
-        transform: translate(100vw, -100vh) rotate(-720deg);
-      }
-      100% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-    }
-    #marvinImage {
-      max-width: 100%;
-      border-radius: 15px;
-      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
-      transition: transform 0.1s ease-out;
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-top: 20px;
-    }
-    p {
-      font-size: 1.2em;
-      line-height: 1.5;
-    }
-    .controls {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      z-index: 10;
-    }
-    .controls button {
-      padding: 10px 20px;
-      font-size: 1em;
-      margin: 5px 0;
-      cursor: pointer;
-      background-color: #ff6600;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      width: auto;
-      max-width: none;
-    }
-    .controls button:hover {
-      background-color: #ff8533;
-    }
-    #musicControls {
-      margin-top: 20px;
-    }
-    #playButton {
-      background-color: #4CAF50;
-      color: white;
-      padding: 25px 50px;
-      font-size: 1.8em;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    /* Default styles for larger screens */
-    .header-text {
-      font-size: 2.5em;
-    }
-    .body-text {
-      font-size: 1.2em;
-    }
-    /* Media query for small screens (e.g., mobile phones) */
-    @media (max-width: 768px) {
-      .content {
-        margin-top: 30px;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .text-container {
-        margin-right: 0;
-      }
-      .controls {
-        position: relative;
-        left: 0;
-        transform: translateX(0);
-        bottom: 0;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        top: auto;
-      }
-      .controls button {
-        font-size: 1.2em;
-        padding: 15px 30px;
-        width: 100%;
-        max-width: 200px;
-        margin: 10px 0;
-      }
-      #playButton {
-        padding: 20px 40px;
-        font-size: 1.5em;
-      }
-      .header-text {
-        font-size: 2em;
-      }
-      .body-text {
-        font-size: 1em;
-        line-height: 1.4;
-      }
-      h1 {
-        font-size: 2em;
-      }
-      p {
-        font-size: 1em;
-      }
-      #marvinImage {
-        max-width: 90%;
-      }
-    }
-    #footer {
-      background-color: #1a1a1a;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      margin-top: 50px;
-      font-size: 0.8em;
-      border-top: 1px solid #333;
-    }
-    #myGif {
-      margin-top: 50px;
-      max-width: 80%;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-    #randomMusic {
-        margin-top: 20px;
-        width: 100%;
-    }
-    #secondGif {
-      margin-top: 20px;
-      max-width: 80%;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Conor</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        #birthdayImage {
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .overlay-text {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            color: white;
+            font-weight: bold;
+            z-index: 1001;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            animation: fadeIn 2s, pulse 2s infinite alternate;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            from {
+                transform:  translateX(-50%) scale(1);
+            }
+
+            to {
+                transform:  translateX(-50%) scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .overlay-text {
+                font-size: 2em;
+            }
+            #birthdayImage{
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="content">
-    <div class = "text-container">
-        <h1 class="header-text">Marvin Beak</h1>
-        <img id="marvinImage" src="https://i.imgur.com/fcwZ4Px.jpeg" alt="Marvin Beak" />
-        <p class="body-text">
-        Meet Marvin Beak, the legendary bird with the wisdom of an elder and the gaze of a thousand stories.
-        </p>
-        <p class="body-text">
-        With his piercing eyes and majestic feathers, he watches over the digital realm, guiding those who seek his knowledge.
-        </p>
-    </div>
-    
-  </div>
-  <div class="controls">
-    <button id="playButton" onclick="startMusic()">Play Music</button>
-    <button id="flyAwayButton" onclick="flyAway()">Fly Away, my child.</button>
-    <button id="comeBackButton" onclick="comeBack()">Come Back, my child.</button>
-  </div>
-  <img id="myGif" src="https://i.imgur.com/rAeNUZo.gif" alt="Marvin Beak GIF">
-  <img id="secondGif" src="https://iili.io/37I0cOl.jpg" alt="Dancing Bird GIF">
-  <audio id="randomMusic" controls></audio>
+    <img id="birthdayImage" src="https://iili.io/3cul9C7.jpg" alt="Happy Birthday" />
+    <canvas id="confetti-canvas"></canvas>
+    <div class="overlay-text">Happy Birthday Conor!</div>
+    <script>
+        // Confetti
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-  <footer id="footer">
-    <p>&copy; 2025</p>
-    <p>marvin-beak.xyz</p>
-    <p>Jimmy was here</p>
-  </footer>
-  <script>
-    const marvinImage = document.getElementById('marvinImage');
-    const audioElement = document.getElementById('randomMusic');
-    const playButton = document.getElementById('playButton');
-    const flyAwayButton = document.getElementById('flyAwayButton');
-    const comeBackButton = document.getElementById('comeBackButton');
-    let isFlying = false;
-    const musicUrls = [
-      'https://www.dropbox.com/scl/fi/p3zrjra3be4xt8vfcb9p9/3.mp3?rlkey=n6p4dpiu7n4ggpvhcpod9ur9c&st=3c7gmfdq&dl=1',
-      'https://www.dropbox.com/scl/fi/6iksn7nooipl97j9jtm72/1.mp3?rlkey=okajlv1vgaluku6cafb7drhf3&st=ujayqpa2&dl=1',
-      'https://www.dropbox.com/scl/fi/kjmcdk28b17jpooo0k0i6/2.mp3?rlkey=obs55s4dopnt0fmx1fhz7lv5v&st=o1k8y0a5&dl=1'
-    ];
-    function playRandomSong() {
-      if (musicUrls.length > 0) {
-        const randomIndex = Math.floor(Math.random() * musicUrls.length);
-        audioElement.src = musicUrls[randomIndex];
-        try {
-          audioElement.play();
-        } catch (error) {
-          console.error('Error playing music:', error);
-          playButton.style.display = 'block';
+        const confetti = [];
+        const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688',
+            '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+
+        function createConfetti() {
+            for (let i = 0; i < 200; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    radius: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * Math.PI,
+                    rotationSpeed: (Math.random() * 0.02) + 0.01,
+                    velocity: {
+                        x: Math.random() * 3 - 1.5,
+                        y: Math.random() * 3 + 2
+                    }
+                });
+            }
         }
-      }
-    }
-    function startMusic() {
-      playRandomSong();
-      playButton.style.display = 'none';
-    }
 
-    marvinImage.addEventListener('mousemove', (e) => {
-      const rect = marvinImage.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const tiltX = (y / rect.height) * 20;
-      const tiltY = -(x / rect.width) * 20;
-      marvinImage.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-    });
-    marvinImage.addEventListener('mouseleave', () => {
-      marvinImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    });
-    function flyAway() {
-      if (!isFlying) {
-        isFlying = true;
-        marvinImage.classList.remove('come-back');
-        marvinImage.classList.add('fly-away');
-        flyAwayButton.disabled = true;
-        comeBackButton.disabled = true;
-        setTimeout(() => {
-          flyAwayButton.disabled = false;
-          comeBackButton.disabled = false;
-        }, 2000);
-      }
-    }
-    function comeBack() {
-      if (isFlying) {
-        isFlying = false;
-        marvinImage.classList.remove('fly-away');
-        marvinImage.classList.add('come-back');
-        flyAwayButton.disabled = true;
-        comeBackButton.disabled = true;
-        setTimeout(() => {
-          flyAwayButton.disabled = false;
-          comeBackButton.disabled = false;
-        }, 2000);
-      }
-    }
-    audioElement.addEventListener('ended', playRandomSong);
-  </script>
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach(c => {
+                ctx.beginPath();
+                ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+                ctx.fillStyle = c.color;
+                ctx.fill();
+                ctx.closePath();
+
+                c.x += c.velocity.x;
+                c.y += c.velocity.y;
+                c.rotation += c.rotationSpeed;
+
+                c.velocity.y += 0.1;
+
+                if (c.y > canvas.height) {
+                    c.y = 0 - c.radius;
+                    c.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawConfetti);
+        }
+
+        createConfetti();
+        drawConfetti();
+    </script>
 </body>
 </html>
